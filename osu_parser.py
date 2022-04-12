@@ -61,3 +61,21 @@ for i in range(len(pairs_sections)):
         if ':' in item:
             item = item.split(': ')
             data[pairs_name[i]][item[0]] = item[1]
+
+
+# Transfer datas of Timing points
+for item in timingpoints_list:
+    if ',' in item:
+        item = item.split(',')
+        point = {
+        'time':item[0],
+        'beatLength':item[1],
+        'meter':item[2],
+        'sampleSet':item[3],
+        'sampleIndex':item[4],
+        'volume':item[5],
+        'uninherited':item[6],
+        'effects':item[7]
+        }
+       
+        data['timingpoints'].append(point)
