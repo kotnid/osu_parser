@@ -1,4 +1,3 @@
-from posixpath import splitext
 from tkinter import filedialog
 import tkinter as tk
 import json
