@@ -1,12 +1,12 @@
+from posixpath import splitext
 from tkinter import filedialog
 import tkinter as tk
 import json
 
-
 # Get file to parse
 root = tk.Tk()
 root.withdraw()
-osu_file = filedialog.askopenfilename()
+osu_file = filedialog.askopenfilename(filetypes=[("osu file", "*.osu")])
 osu_data = open(osu_file,'r+' , encoding="utf8" ).readlines()
 
 
