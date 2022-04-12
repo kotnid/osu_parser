@@ -1,7 +1,6 @@
 from tkinter import filedialog
 import tkinter as tk
-
-from cv2 import phase
+import json
 
 
 # Get file to parse
@@ -147,3 +146,9 @@ for item in hitobject_list:
         point['hitSample'] = content[1:]
 
     data['hitobjects'].append(point)
+
+
+# Output data
+output = json.dumps(data).replace('\n','')
+with open(data['metadata']['Title'].rstrip()+'.json','w') as file:
+    file.write(output)
