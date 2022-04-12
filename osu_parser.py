@@ -7,7 +7,7 @@ import json
 root = tk.Tk()
 root.withdraw()
 osu_file = filedialog.askopenfilename()
-osu_data = open(osu_file,'r+').readlines()
+osu_data = open(osu_file,'r+' , encoding="utf8" ).readlines()
 
 
 # Init place for datas to store
@@ -27,17 +27,17 @@ def get_line(phrase):
     for num, line in enumerate(osu_data, 0):
         if phrase in line:
             return num
-    if phrase == '[colours]':
-        return get_line('[hitObjects]') -1
+    if phrase == '[Colours]':
+        return get_line('[HitObjects]') -1
 
-general_line = get_line('[general]')
-editor_line = get_line('[editor]')
-metadata_line = get_line('[metadata]')
-difficulty_line = get_line('[difficulty]')
-events_line = get_line('[events]')
-timing_line = get_line('[timingPoints]')
-Colours_line = get_line('[colours]')
-hit_line = get_line('[hitObjects]')
+general_line = get_line('[General]')
+editor_line = get_line('[Editor]')
+metadata_line = get_line('[Metadata]')
+difficulty_line = get_line('[Difficulty]')
+events_line = get_line('[Events]')
+timing_line = get_line('[TimingPoints]')
+Colours_line = get_line('[Colours]')
+hit_line = get_line('[HitObjects]')
 
 
 # Get datas of each section
@@ -58,7 +58,7 @@ pairs_name = ['general' , 'editor' , 'metadata' , 'difficulty' , 'colours' ]
 for i in range(len(pairs_sections)):
     for item in pairs_sections[i]:
         if ':' in item:
-            item = item.split(': ')
+            item = item.split(':')
             data[pairs_name[i]][item[0]] = item[1]
 
 
@@ -82,6 +82,9 @@ for item in timingpoints_list:
 
 # Transfer datas of Events
 for item in events_list:
+    if ',' not in item:
+        continue;
+
     item = item.split(',')
     point = {
         'eventType':item[0],
@@ -106,6 +109,9 @@ for item in events_list:
 
 # Transfer datas of Hit objects
 for item in hitobject_list:
+    if ',' not in item:
+        continue;
+    
     item = item.split(',')
     point = {
         'x':item[0],
@@ -149,6 +155,6 @@ for item in hitobject_list:
 
 
 # Output data
-output = json.dumps(data).replace('\n','')
-with open(data['metadata']['Title'].rstrip()+'.json','w') as file:
+output = json.dumps(data).replace("\n","")
+with open(data['metadata']['Title'].rstrip()+'.json','w' ,  encoding="utf8" ) as file:
     file.write(output)
