@@ -92,15 +92,58 @@ for item in events_list:
     if item[0] == '0':
         point['filename'] = item[2]
         point['xoffset'] = item[3]
-        point['yoffset'] = item[4]
-        data['events'].append(point)
+        point['yoffset'] = item[4]       
     
     elif item[0] == '1' or item[0] == 'Video':
         point['filename'] = item[2]
         point['xoffset'] = item[3]
         point['yoffset'] = item[4]
-        data['events'].append(point)
 
     elif item[0] == '2' or item[0] == 'Break':
         point['endTime'] = item[2]
-        data['events'].append(point)
+
+    data['events'].append(point)
+
+
+# Transfer datas of Hit objects
+for item in hitobject_list:
+    item = item.split(',')
+    point = {
+        'x':item[0],
+        'y':item[1],
+        'time':item[2],
+        'type':item[3],
+        'hitSound':item[4]
+    }
+
+    # slider
+    if item[3] == '6' or item[3] == '2':
+        content = item[5].split('|')
+        point['curveType'] = content[0]
+        point['curvePoints'] = content[1:]
+        point['slides'] = item[6]
+        point['length'] = item[7]
+
+        try:
+            point['edgeSounds'] = item[8]
+            point['edgeSets'] = item[9]
+            point['hitSample'] = item[10]
+        except:
+            pass
+
+    # hit circle
+    elif item[3] == '5' or item[3] == '1':
+        point['hitSample'] = item[5]
+
+    # Spinner
+    elif item[3] == '12' or item[3] == '8':
+        point['endTime'] = item[5]
+        point['hitSample'] = item[6]
+
+    # osu!mania hold
+    else:
+        content = item[5].split(':')
+        point['endTime'] = content[0]
+        point['hitSample'] = content[1:]
+
+    data['hitobjects'].append(point)
