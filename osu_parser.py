@@ -13,13 +13,13 @@ osu_data = open(osu_file,'r+').readlines()
 
 # Init place for datas to store
 data = {}
-data['General'] = {}
-data['Editor'] = {}
-data['Metadata'] = {}
-data['Difficulty'] = {}
-data['Events'] = []
+data['general'] = {}
+data['editor'] = {}
+data['metadata'] = {}
+data['difficulty'] = {}
+data['events'] = []
 data['timingpoints'] = []
-data['Colours'] = {}
+data['colours'] = {}
 data['hitobjects'] = []
 
 
@@ -79,3 +79,28 @@ for item in timingpoints_list:
         }
        
         data['timingpoints'].append(point)
+
+
+# Transfer datas of Events
+for item in events_list:
+    item = item.split(',')
+    point = {
+        'eventType':item[0],
+        'startTime':item[1],
+    }
+
+    if item[0] == '0':
+        point['filename'] = item[2]
+        point['xoffset'] = item[3]
+        point['yoffset'] = item[4]
+        data['events'].append(point)
+    
+    elif item[0] == '1' or item[0] == 'Video':
+        point['filename'] = item[2]
+        point['xoffset'] = item[3]
+        point['yoffset'] = item[4]
+        data['events'].append(point)
+
+    elif item[0] == '2' or item[0] == 'Break':
+        point['endTime'] = item[2]
+        data['events'].append(point)
