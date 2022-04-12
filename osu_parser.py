@@ -58,14 +58,14 @@ pairs_name = ['general' , 'editor' , 'metadata' , 'difficulty' , 'colours' ]
 for i in range(len(pairs_sections)):
     for item in pairs_sections[i]:
         if ':' in item:
-            item = item.split(':')
+            item = item.rstrip("\n").split(':')
             data[pairs_name[i]][item[0]] = item[1]
 
 
 # Transfer datas of Timing points
 for item in timingpoints_list:
     if ',' in item:
-        item = item.split(',')
+        item = item.rstrip("\n").split(',')
         point = {
         'time':item[0],
         'beatLength':item[1],
@@ -85,7 +85,7 @@ for item in events_list:
     if ',' not in item:
         continue;
 
-    item = item.split(',')
+    item = item.rstrip("\n").split(',')
     point = {
         'eventType':item[0],
         'startTime':item[1],
@@ -98,8 +98,8 @@ for item in events_list:
     
     elif item[0] == '1' or item[0] == 'Video':
         point['filename'] = item[2]
-        point['xoffset'] = item[3]
-        point['yoffset'] = item[4]
+        point['xoffset'] = item[3] if 'item[3]' in locals() else ""
+        point['yoffset'] = item[4] if 'item[3]' in locals() else ""
 
     elif item[0] == '2' or item[0] == 'Break':
         point['endTime'] = item[2]
@@ -112,7 +112,7 @@ for item in hitobject_list:
     if ',' not in item:
         continue;
     
-    item = item.split(',')
+    item = item.rstrip("\n").split(',')
     point = {
         'x':item[0],
         'y':item[1],
@@ -129,12 +129,10 @@ for item in hitobject_list:
         point['slides'] = item[6]
         point['length'] = item[7]
 
-        try:
-            point['edgeSounds'] = item[8]
-            point['edgeSets'] = item[9]
-            point['hitSample'] = item[10]
-        except:
-            pass
+        point['edgeSounds'] = item[8] if 'item[8]' in locals() else ""
+        point['edgeSets'] = item[9] if 'item[9]' in locals() else ""
+        point['hitSample'] = item[10] if 'item[10]' in locals() else ""
+        
 
     # hit circle
     elif item[3] == '5' or item[3] == '1':
@@ -155,6 +153,6 @@ for item in hitobject_list:
 
 
 # Output data
-output = json.dumps(data).replace("\n","")
+output = json.dumps(data)
 with open(data['metadata']['Title'].rstrip()+'.json','w' ,  encoding="utf8" ) as file:
     file.write(output)
