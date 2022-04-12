@@ -153,5 +153,10 @@ for item in hitobject_list:
 
 # Output data
 output = json.dumps(data)
-with open(data['metadata']['Title'].rstrip()+'.json','w' ,  encoding="utf8" ) as file:
+filename = filedialog.asksaveasfilename(filetypes=[('json file', '*.json') ], title='Save your .json file' , initialfile = data['metadata']['Title'].rstrip()+'.json' , initialdir='C:')
+
+if not filename.endswith('.json'):
+    filename += '.json'
+
+with open(filename,'w' ,  encoding="utf8" ) as file:
     file.write(output)
